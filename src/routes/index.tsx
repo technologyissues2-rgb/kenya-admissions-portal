@@ -379,8 +379,8 @@ function Index() {
               <p className="mt-1 text-xs text-muted-foreground">
                 JavaScript regular expressions validate each field: names must have 3+ letters and at
                 least two words; emails follow the local@domain.tld pattern; phone numbers accept
-                Kenyan formats (+2547…, 07…, 01…); KCSE index numbers must be 11 digits with an
-                optional candidate code. Validation runs on blur and on change after a first visit, is
+                Kenyan formats (+2547…, 07…, 01…); KCSE index numbers must be at least 11 digits with
+                an optional candidate code (e.g. /01). Validation runs on blur and on change after a first visit, is
                 re-checked for all fields on submit, and uses <code>noValidate</code> plus{" "}
                 <code>aria-invalid</code>/<code>role="alert"</code> so errors are announced to screen
                 readers.
