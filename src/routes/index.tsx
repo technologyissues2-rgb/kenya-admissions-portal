@@ -73,11 +73,15 @@ function validateField(field: keyof FormState, value: string): string | undefine
       return undefined;
     }
     case "kcseIndex": {
-      // KCSE index: 11 digits, optionally followed by /NN or /YYYY candidate code
+      // KCSE index: digits written with an optional candidate code (e.g. /01),
+      // at least 11 digits counted across the whole entry.
       if (!v) return "KCSE index number is required.";
       const cleaned = v.replace(/\s/g, "").toUpperCase();
-      if (!/^\d{11}(\/\d{2,4})?$/.test(cleaned))
-        return "Enter a valid 11-digit KCSE index number, e.g. 11234567890/01.";
+      if (!/^\d+(\/\d+)?$/.test(cleaned))
+        return "KCSE index number may only contain digits, written with an optional candidate code like /01.";
+      const totalDigits = cleaned.replace("/", "").length;
+      if (totalDigits < 11)
+        return `KCSE index number must be at least 11 digits in total (you entered ${totalDigits}), e.g. 116666224/01.`;
       return undefined;
     }
     case "program": {
@@ -379,8 +383,8 @@ function Index() {
               <p className="mt-1 text-xs text-muted-foreground">
                 JavaScript regular expressions validate each field: names must have 3+ letters and at
                 least two words; emails follow the local@domain.tld pattern; phone numbers accept
-                Kenyan formats (+2547…, 07…, 01…); KCSE index numbers must be 11 digits with an
-                optional candidate code. Validation runs on blur and on change after a first visit, is
+                Kenyan formats (+2547…, 07…, 01…); KCSE index numbers must be at least 11 digits with
+                an optional candidate code (e.g. /01). Validation runs on blur and on change after a first visit, is
                 re-checked for all fields on submit, and uses <code>noValidate</code> plus{" "}
                 <code>aria-invalid</code>/<code>role="alert"</code> so errors are announced to screen
                 readers.
