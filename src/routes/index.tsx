@@ -73,11 +73,11 @@ function validateField(field: keyof FormState, value: string): string | undefine
       return undefined;
     }
     case "kcseIndex": {
-      // KCSE index: 11 digits, optionally followed by /NN or /YYYY candidate code
+      // KCSE index: at least 11 digits, optionally followed by /NN or /YYYY candidate code
       if (!v) return "KCSE index number is required.";
       const cleaned = v.replace(/\s/g, "").toUpperCase();
-      if (!/^\d{11}(\/\d{2,4})?$/.test(cleaned))
-        return "Enter a valid 11-digit KCSE index number, e.g. 11234567890/01.";
+      if (!/^\d{11,}(\/\d{2,4})?$/.test(cleaned))
+        return "KCSE index number must be at least 11 digits, optionally followed by a candidate code, e.g. 112345678901/01.";
       return undefined;
     }
     case "program": {
